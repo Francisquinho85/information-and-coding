@@ -33,6 +33,7 @@ int main(int argc, char** argv)
     // }
     imshow("Image", src);
     imshow("Image reduce", img);
+    imwrite("img_reduce.ppm", img);
     waitKey();
     return EXIT_SUCCESS;
 }
