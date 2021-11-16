@@ -28,7 +28,8 @@ int main(int argc, char ** argv)
 			{
 				sample = sample * 2;
 			}
-			audioOut.samples[c][i] = sample;
+			
+			audioOut.samples[c][i] = (double) sample / 32768;
 		}
 	}
 	audioOut.save(argv[2], AudioFileFormat::Wave);
