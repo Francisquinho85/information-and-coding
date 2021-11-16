@@ -20,7 +20,9 @@ int main(int argc, char *argv[])
         }
     }
 
-    audioIn.save(argv[2], AudioFileFormat::Wave);
+    audioOut.save(argv[2], AudioFileFormat::Wave);
 
     return 0;
 } 
+
+// usage: ./3 ../samples/sample05.wav sample_out.wav
