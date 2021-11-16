@@ -12,13 +12,14 @@ int main(int argc, char** argv)
     {
         return EXIT_FAILURE;
     }
+    int bits = atoi(argv[2]);
     Mat img = Mat::zeros(Size(src.cols,src.rows),CV_8UC3);
     for(int y=0; y<src.cols; y++){
         for(int x=0; x<src.rows; x++){
             Vec3b a = src.at<Vec3b>(x,y);
-            a[0] = (a[0]>>6)<<6; 
-            a[1] = (a[1]>>6)<<6;
-            a[2] = (a[2]>>6)<<6;
+            a[0] = (a[0]>>bits)<<bits; 
+            a[1] = (a[1]>>bits)<<bits;
+            a[2] = (a[2]>>bits)<<bits;
             img.at<Vec3b>(x,y) = a;
         }
     }
