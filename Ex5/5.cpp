@@ -3,6 +3,12 @@
 #include <map>
 #include <iterator>
 #include <vector>
+#include <algorithm>
+#include <cmath>
+
+double log2( double number ) {
+   return log( number ) / log( 2 ) ;
+}
 
 int main(int argc, char *argv[])
 {
@@ -10,10 +16,13 @@ int main(int argc, char *argv[])
     std::ofstream ofs("out.txt"); 
     std::string s; 
     std:: map<char, int> mymap;
+    std::vector<int> value;
     double d;
+    int numlen = 0;
 
     while (std::getline(ifs,s)){
         for (int i = 0; i < s.size(); i++){
+            
             if (!std::isalpha(s[i])){
                 continue;
             }
@@ -25,12 +34,30 @@ int main(int argc, char *argv[])
         }
     }
 
+    
+
+
+    
+    
+
     // show content into file:
-    for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+    for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it){
         ofs << it->first << "=>" << it->second << '\n';
+        numlen= numlen + (it->second);
+    }
+        
     ifs.close();
     ofs.close();
+    
+    double infocontent = 0 ;
+    for ( std::pair<char , int> p : mymap ) {
+      double freq = static_cast<double>( p.second ) / numlen ;
+      infocontent -= freq * log2( freq ) ;
+    }
 
+    std::cout << "The information content of " << argv[1] 
+      << " is " << infocontent << std::endl ;
+    
     return 0;
 
 }
