@@ -34,11 +34,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    
-
-
-    
-    
 
     // show content into file:
     for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it){
@@ -55,8 +50,8 @@ int main(int argc, char *argv[])
       infocontent -= freq * log2( freq ) ;
     }
 
-    std::cout << "The information content of " << argv[1] 
-      << " is " << infocontent << std::endl ;
+    std::cout << "The entropy of " << argv[1] 
+      << " is : " << infocontent << std::endl ;
     
     return 0;
 
