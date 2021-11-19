@@ -27,6 +27,6 @@ int main(int argc, char ** argv)
         }
     }
     mse = mse / (numChannels * numSamples);
-    snr = (20 * log10(32768)) - 10 * log10(mse);
+    snr = (20 * log10(65536)) - 10 * log10(mse);
     cout << "SNR: " << snr << " dB" << endl;
 }
