@@ -2,8 +2,30 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/imgproc.hpp"
 #include <iostream>
+#include <stdio.h>
 using namespace std;
 using namespace cv;
+
+float entropy(Mat seq, Size size, int index)
+{
+  int cnt = 0;
+  float entr = 0;
+  float total_size = size.height * size.width; //total size of all symbols in an image
+
+  for(int i=0;i<index;i++)
+  {
+    float sym_occur = seq.at<float>(0, i); //the number of times a sybmol has occured
+    
+    if(sym_occur>0) //log of zero goes to infinity
+      {
+        cnt++;
+        entr += (sym_occur/total_size)*(log2(total_size/sym_occur));
+      }
+  }
+  return entr;
+
+}
+
 int main(int argc, char** argv)
 {
     CommandLineParser parser( argc, argv, "{@input | lena.jpg | input image}" );
@@ -22,6 +44,9 @@ int main(int argc, char** argv)
     calcHist( &bgr_planes[0], 1, 0, Mat(), b_hist, 1, &histSize, histRange, uniform, accumulate );
     calcHist( &bgr_planes[1], 1, 0, Mat(), g_hist, 1, &histSize, histRange, uniform, accumulate );
     calcHist( &bgr_planes[2], 1, 0, Mat(), r_hist, 1, &histSize, histRange, uniform, accumulate );
+    cout<<"entropy b: "<<entropy(b_hist,src.size(), histSize)<<endl;
+    cout<<"entropy g: "<<entropy(g_hist,src.size(), histSize)<<endl;
+    cout<<"entropy r: "<<entropy(r_hist,src.size(), histSize)<<endl;
     int hist_w = 512, hist_h = 400;
     int bin_w = cvRound( (double) hist_w/histSize );
     Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 0,0,0) );
@@ -46,6 +71,7 @@ int main(int argc, char** argv)
     Mat gray_hist;
     histSize = 256;
     calcHist( &grayimg, 1, 0, Mat(), gray_hist, 1, &histSize, histRange, uniform, accumulate );
+    cout<<"entropy gray: "<<entropy(gray_hist,src.size(), histSize)<<endl;
     Mat histImageGray( hist_h, hist_w, CV_8UC1, Scalar( 0,0,0) );
     normalize(gray_hist, gray_hist, 0, histImageGray.rows, NORM_MINMAX, -1, Mat() );
     for(int k = 1; k<histSize; k++){

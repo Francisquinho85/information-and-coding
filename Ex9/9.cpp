@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     {
         return EXIT_FAILURE;
     }
-    int bits = atoi(argv[2]);
+    int bits = atoi(argv[3]);
     Mat img = Mat::zeros(Size(src.cols,src.rows),CV_8UC3);
     for(int y=0; y<src.cols; y++){
         for(int x=0; x<src.rows; x++){
@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     // }
     imshow("Image", src);
     imshow("Image reduce", img);
-    imwrite("img_reduce.ppm", img);
+    imwrite(argv[2], img);
     waitKey();
     return EXIT_SUCCESS;
 }
