@@ -13,7 +13,8 @@ int main(int argc, char ** argv)
     int tmp,originalSample,reducedSample;
     int numChannels = originalAudio.getNumChannels();
     int numSamples = originalAudio.getNumSamplesPerChannel();
-    double snr = 0;
+    double snr;
+    unsigned long noise,mse = 0;
 
     for(int c = 0; c < numChannels; c++)
     {
@@ -21,12 +22,11 @@ int main(int argc, char ** argv)
         {
             originalSample = originalAudio.samples[c][i] * 32768;
             reducedSample = reducedAudio.samples[c][i] * 32768;
-            tmp = abs(originalSample - reducedSample);
-            
-            if(tmp > maxErrorPerSample){
-                maxErrorPerSample = tmp;
-            }
+            noise = pow(abs(originalSample - reducedSample),2);
+            mse += noise;
         }
     }
-    cout << "MAX ERROR: " << maxErrorPerSample << endl;
+    mse = mse / (numChannels * numSamples);
+    snr = (20 * log10(32768)) - 10 * log10(mse);
+    cout << "SNR: " << snr << " dB" << endl;
 }
